@@ -8,5 +8,5 @@ node_modules/
 *.html
 /.vscode/
 yarn.lock
-.gitignore
-.DS_Store
+*.gitignore
+*.DS_Store
