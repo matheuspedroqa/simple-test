@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs "node"   // precisa do Node.js configurado no Jenkins (Manage Jenkins → Global Tool Configuration)
+        nodejs "node"   // Node.js configurado no Jenkins
     }
 
     stages {
@@ -29,19 +29,29 @@ pipeline {
 
         stage('Publish Report') {
             steps {
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true,
+                publishHTML([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
                     reportDir: 'playwright-report',
                     reportFiles: 'index.html',
-                    reportName: 'Playwright Report'])
+                    reportName: 'Playwright Report'
+                ])
             }
         }
-            post {
+    } // Fim do stages
+
+    post { // <-- deve ficar aqui, fora de stages
         always {
-            // Publica relatório HTML se quiser
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true,
+            // Publica relatório HTML mesmo que o build falhe
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
                 reportDir: 'playwright-report',
                 reportFiles: 'index.html',
-                reportName: 'Playwright Report'])
+                reportName: 'Playwright Report'
+            ])
         }
 
         success {
@@ -59,6 +69,5 @@ pipeline {
                 to: "matheusps70@hotmail.com"
             )
         }
-    }
     }
 }
